@@ -10,11 +10,11 @@ heroAlt: "Composición editorial de Intel Arc B580 con tarjeta gráfica y capas 
 featured: true
 toc: true
 video:
-  src: "/media/video/gpu-intel-arc-b580-exploded-smooth.mp4"
-  poster: "/media/posters/gpu-closed.jpg"
+  src: "/media/video/gpu-intel-arc-exploded-scroll.mp4"
+  poster: "/media/posters/gpu-arc-closed.jpg"
   label: "Vista expandida de Intel Arc B580"
-  duration: "8,75 s · 60 fps · fondo original"
-  analysis: "La tarjeta completa aparece al inicio; la zona interna se revela con interpolación suave, conservando el fondo del render para evitar recortes duros."
+  duration: "8 s · 60 fps · fondo original"
+  analysis: "La tarjeta completa aparece al inicio; la separación interna avanza con interpolación a 60 fps, conservando el fondo del render para una reproducción por desplazamiento más suave."
 ---
 
 ## La GPU como objeto legible

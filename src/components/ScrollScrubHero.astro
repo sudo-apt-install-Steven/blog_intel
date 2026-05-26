@@ -1,30 +1,39 @@
 ---
 ---
 
-<section class="scrub-shell" data-scrub-hero aria-label="Vista expandida de un procesador Intel Core">
+<section class="scrub-shell" data-scrub-hero aria-label="Vista expandida de un procesador Intel">
   <div class="scrub-sticky">
     <video
       class="scrub-video-glow"
       data-scrub-glow
-      poster="/media/posters/cpu-closed.jpg"
+      poster="/media/posters/cpu-xeon-closed.jpg"
       preload="auto"
       muted
       playsinline
       aria-hidden="true"
     >
-      <source src="/media/video/cpu-intel-core-exploded-smooth.mp4" type="video/mp4" />
+      <source src="/media/video/cpu-intel-xeon-exploded-scroll.mp4" type="video/mp4" />
     </video>
     <video
       class="scrub-video"
       data-scrub-video
-      poster="/media/posters/cpu-closed.jpg"
+      poster="/media/posters/cpu-xeon-closed.jpg"
       preload="auto"
       muted
       playsinline
-      aria-label="Video de un procesador Intel Core pasando de vista completa a vista expandida"
+      aria-label="Video de un procesador Intel pasando de vista completa a vista expandida"
     >
-      <source src="/media/video/cpu-intel-core-exploded-smooth.mp4" type="video/mp4" />
+      <source src="/media/video/cpu-intel-xeon-exploded-scroll.mp4" type="video/mp4" />
     </video>
+    <div class="scrub-vector-field" aria-hidden="true">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <div class="scrub-frame-readout" aria-hidden="true">FRAME <span data-scrub-frame>001</span> / 192</div>
     <div class="scrub-panel">
       <h1 aria-label="El chip, capa por capa.">El chip,<br />capa por capa.</h1>
       <p>
@@ -58,7 +67,8 @@
       return;
     }
 
-    let duration = 7.4;
+    const frameReadout = document.querySelector("[data-scrub-frame]");
+    let duration = 8;
     let targetTime = 0;
     let renderedTime = 0;
     let rafId = 0;
@@ -70,7 +80,19 @@
       const rect = shell.getBoundingClientRect();
       const scrollDistance = Math.max(1, shell.offsetHeight - window.innerHeight);
       const progress = clamp((0 - rect.top) / scrollDistance);
+      const shift = progress * 34;
       shell.style.setProperty("--scrub-progress", progress.toFixed(4));
+      shell.style.setProperty("--scrub-progress-percent", `${(progress * 100).toFixed(2)}%`);
+      shell.style.setProperty("--scrub-overlay-opacity", (0.42 + progress * 0.22).toFixed(3));
+      shell.style.setProperty("--scrub-vector-opacity", (0.18 + progress * 0.48).toFixed(3));
+      shell.style.setProperty("--scrub-shift", `${shift.toFixed(2)}px`);
+      shell.style.setProperty("--scrub-shift-y", `${(-shift * 0.38).toFixed(2)}px`);
+      shell.style.setProperty("--scrub-shift-half", `${(shift * 0.5).toFixed(2)}px`);
+      shell.style.setProperty("--scrub-shift-half-neg", `${(-shift * 0.6).toFixed(2)}px`);
+      shell.style.setProperty("--scrub-shift-small-neg", `${(-shift * 0.3).toFixed(2)}px`);
+      shell.style.setProperty("--scrub-shift-subtle-neg", `${(-shift * 0.2).toFixed(2)}px`);
+      shell.style.setProperty("--scrub-shift-wide", `${(shift * 0.7).toFixed(2)}px`);
+      if (frameReadout) frameReadout.textContent = String(Math.round(progress * 191) + 1).padStart(3, "0");
       targetTime = progress * duration;
     };
 
@@ -91,7 +113,7 @@
     };
 
     video.addEventListener("loadedmetadata", () => {
-      duration = Math.min(video.duration || 7.4, 7.4);
+      duration = video.duration || 8;
       updateTarget();
       if (!rafId) tick();
     });

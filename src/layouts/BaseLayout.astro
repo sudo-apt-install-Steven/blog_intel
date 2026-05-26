@@ -12,7 +12,7 @@ interface Props {
 const {
   title = "Miraidon Blogs | Blog educativo de tecnología",
   description = "Blog en español sobre procesadores, gráficos Intel Arc, IA, centros de datos y ecosistema PC.",
-  image = "/media/posters/cpu-open.jpg"
+  image = "/media/posters/cpu-xeon-open.jpg"
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site ?? "https://blog-intel-espanhol.pages.dev");
@@ -26,7 +26,8 @@ const pageTitle = title.includes("Miraidon Blogs") ? title : `${title} | Miraido
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <meta name="theme-color" content="#080b18" />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.png" type="image/png" />
+    <link rel="apple-touch-icon" href="/media/brand/miraidon-logo-192.png" />
     <link rel="canonical" href={canonical.href} />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />

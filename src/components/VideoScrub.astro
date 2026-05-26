@@ -12,9 +12,11 @@ const id = `video-${Math.random().toString(36).slice(2)}`;
 ---
 
 <figure class="video-scrub" data-video-scrub>
-  <video id={id} poster={poster} preload="metadata" muted playsinline aria-label={label}>
-    <source src={src} type="video/mp4" />
-  </video>
+  <div class="video-stage">
+    <video id={id} poster={poster} preload="metadata" muted playsinline aria-label={label}>
+      <source src={src} type="video/mp4" />
+    </video>
+  </div>
   <figcaption class="video-caption">
     <strong>{label}.</strong> {analysis}
   </figcaption>

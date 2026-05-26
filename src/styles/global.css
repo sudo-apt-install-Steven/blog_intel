@@ -376,7 +376,98 @@ button {
     linear-gradient(115deg, rgba(143, 120, 255, 0.18), transparent 45%, rgba(73, 221, 255, 0.14)),
     conic-gradient(from 220deg at 72% 46%, transparent, rgba(73, 221, 255, 0.12), rgba(143, 120, 255, 0.18), transparent);
   mix-blend-mode: screen;
-  opacity: calc(0.42 + (var(--scrub-progress, 0) * 0.22));
+  opacity: var(--scrub-overlay-opacity, 0.42);
+}
+
+.scrub-vector-field {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: var(--scrub-vector-opacity, 0.18);
+}
+
+.scrub-vector-field::before {
+  content: "";
+  position: absolute;
+  inset: 10% -8% 8% 34%;
+  background:
+    linear-gradient(118deg, transparent 0 19%, rgba(255, 255, 255, 0.42) 19.2% 19.5%, transparent 19.7% 100%),
+    linear-gradient(28deg, transparent 0 38%, rgba(73, 221, 255, 0.32) 38.2% 38.5%, transparent 38.8% 100%),
+    linear-gradient(152deg, transparent 0 56%, rgba(143, 120, 255, 0.3) 56.2% 56.45%, transparent 56.7% 100%);
+  background-size: 310px 210px, 380px 260px, 460px 300px;
+  filter: drop-shadow(0 0 12px rgba(73, 221, 255, 0.28));
+  mask-image: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent);
+  transform: translate3d(var(--scrub-shift, 0), var(--scrub-shift-y, 0), 0);
+}
+
+.scrub-vector-field span {
+  position: absolute;
+  left: 50%;
+  width: min(44vw, 560px);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(245, 250, 255, 0.76), rgba(73, 221, 255, 0.25), transparent);
+  box-shadow: 0 0 18px rgba(73, 221, 255, 0.34);
+  transform-origin: left center;
+}
+
+.scrub-vector-field span:nth-child(1) {
+  top: 18%;
+  transform: translate3d(var(--scrub-shift-half-neg, 0), 0, 0) rotate(18deg);
+}
+
+.scrub-vector-field span:nth-child(2) {
+  top: 30%;
+  left: 58%;
+  width: min(34vw, 430px);
+  transform: translate3d(var(--scrub-shift, 0), 0, 0) rotate(-13deg);
+}
+
+.scrub-vector-field span:nth-child(3) {
+  top: 44%;
+  left: 47%;
+  width: min(48vw, 620px);
+  transform: translate3d(var(--scrub-shift-small-neg, 0), 0, 0) rotate(4deg);
+}
+
+.scrub-vector-field span:nth-child(4) {
+  top: 58%;
+  left: 64%;
+  width: min(28vw, 360px);
+  transform: translate3d(var(--scrub-shift-half, 0), 0, 0) rotate(26deg);
+}
+
+.scrub-vector-field span:nth-child(5) {
+  top: 70%;
+  left: 52%;
+  width: min(38vw, 480px);
+  transform: translate3d(var(--scrub-shift-subtle-neg, 0), 0, 0) rotate(-20deg);
+}
+
+.scrub-vector-field span:nth-child(6) {
+  top: 82%;
+  left: 70%;
+  width: min(24vw, 340px);
+  transform: translate3d(var(--scrub-shift-wide, 0), 0, 0) rotate(9deg);
+}
+
+.scrub-frame-readout {
+  position: absolute;
+  right: max(20px, calc((100vw - var(--container)) / 2));
+  bottom: 44px;
+  z-index: 2;
+  border: 1px solid rgba(208, 235, 255, 0.2);
+  border-radius: 999px;
+  padding: 8px 12px;
+  background: rgba(5, 7, 17, 0.48);
+  color: rgba(244, 248, 251, 0.74);
+  font-size: 0.72rem;
+  font-weight: 760;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  backdrop-filter: blur(14px);
+  box-shadow: 0 0 28px rgba(73, 221, 255, 0.12);
 }
 
 .scrub-video,
@@ -450,7 +541,7 @@ button {
 .scrub-meter span:last-child::before {
   content: "";
   display: block;
-  width: calc(var(--scrub-progress, 0) * 100%);
+  width: var(--scrub-progress-percent, 0%);
   height: 100%;
   background: linear-gradient(90deg, var(--accent), var(--cyan), var(--green));
 }
@@ -757,12 +848,31 @@ button {
   box-shadow: var(--shadow-soft);
 }
 
-.video-scrub video {
-  width: 100%;
+.video-stage {
+  position: relative;
   overflow: hidden;
   border-radius: var(--radius-sm);
   background: #050711;
+}
+
+.video-stage::after {
+  content: "";
+  position: absolute;
+  right: -1px;
+  bottom: -1px;
+  width: min(22%, 190px);
+  height: min(20%, 118px);
+  pointer-events: none;
+  background: linear-gradient(135deg, transparent, rgba(5, 7, 17, 0.72) 54%, rgba(5, 7, 17, 0.92));
+}
+
+.video-scrub video {
+  width: 100%;
+  height: auto;
+  background: #050711;
   box-shadow: 0 0 44px rgba(73, 221, 255, 0.12);
+  transform: scale(1.045);
+  transform-origin: center center;
 }
 
 .video-controls {
@@ -1037,6 +1147,18 @@ button {
 
   .scrub-video {
     opacity: 0.86;
+  }
+
+  .scrub-vector-field {
+    opacity: 0.24;
+  }
+
+  .scrub-vector-field::before {
+    inset: 14% -42% 10% 12%;
+  }
+
+  .scrub-frame-readout {
+    display: none;
   }
 
   .video-controls {
