@@ -7,7 +7,7 @@ import TopicSidebar from "../../components/TopicSidebar.astro";
 const posts = (await getCollection("blog")).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 ---
 
-<BaseLayout title="Blog" description="Todas las entradas de Bitácora Intel en español.">
+<BaseLayout title="Blog" description="Todas las entradas de Miraidon Blogs en español.">
   <section class="page-hero">
     <div class="container">
       <div class="section-heading">

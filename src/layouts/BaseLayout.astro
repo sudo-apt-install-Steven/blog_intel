@@ -10,13 +10,13 @@ interface Props {
 }
 
 const {
-  title = "Bitácora Intel | Blog educativo de tecnología",
+  title = "Miraidon Blogs | Blog educativo de tecnología",
   description = "Blog en español sobre procesadores, gráficos Intel Arc, IA, centros de datos y ecosistema PC.",
   image = "/media/posters/cpu-open.jpg"
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site ?? "https://blog-intel-espanhol.pages.dev");
-const pageTitle = title.includes("Bitácora Intel") ? title : `${title} | Bitácora Intel`;
+const pageTitle = title.includes("Miraidon Blogs") ? title : `${title} | Miraidon Blogs`;
 ---
 
 <!doctype html>
@@ -25,7 +25,7 @@ const pageTitle = title.includes("Bitácora Intel") ? title : `${title} | Bitác
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#07111f" />
+    <meta name="theme-color" content="#080b18" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="canonical" href={canonical.href} />
     <meta property="og:title" content={pageTitle} />
@@ -34,20 +34,51 @@ const pageTitle = title.includes("Bitácora Intel") ? title : `${title} | Bitác
     <meta property="og:image" content={new URL(image, canonical).href} />
     <meta name="twitter:card" content="summary_large_image" />
     <title>{pageTitle}</title>
-    <script is:inline>
-      (() => {
-        const stored = localStorage.getItem("theme");
-        const preferred = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-        document.documentElement.dataset.theme = stored || preferred;
-      })();
-    </script>
   </head>
   <body>
+    <div class="ambient-backdrop" aria-hidden="true"></div>
     <a class="skip-link" href="#contenido">Saltar al contenido</a>
     <Header />
     <main id="contenido">
       <slot />
     </main>
     <Footer />
+    <script is:inline>
+      (() => {
+        const root = document.documentElement;
+        const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        let mouseX = 0.5;
+        let mouseY = 0.42;
+        let targetX = mouseX;
+        let targetY = mouseY;
+
+        if (reduce) {
+          root.style.setProperty("--ambient-x", "50%");
+          root.style.setProperty("--ambient-y", "42%");
+          return;
+        }
+
+        window.addEventListener("pointermove", (event) => {
+          targetX = event.clientX / Math.max(1, window.innerWidth);
+          targetY = event.clientY / Math.max(1, window.innerHeight);
+        }, { passive: true });
+
+        window.addEventListener("scroll", () => {
+          const depth = Math.min(1, window.scrollY / Math.max(1, document.body.scrollHeight - window.innerHeight));
+          root.style.setProperty("--scroll-depth", depth.toFixed(4));
+          root.style.setProperty("--ambient-spin", `${(160 + depth * 260).toFixed(2)}deg`);
+        }, { passive: true });
+
+        const animate = () => {
+          mouseX += (targetX - mouseX) * 0.08;
+          mouseY += (targetY - mouseY) * 0.08;
+          root.style.setProperty("--ambient-x", `${(mouseX * 100).toFixed(2)}%`);
+          root.style.setProperty("--ambient-y", `${(mouseY * 100).toFixed(2)}%`);
+          requestAnimationFrame(animate);
+        };
+
+        animate();
+      })();
+    </script>
   </body>
 </html>

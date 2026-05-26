@@ -11,11 +11,10 @@ featured: true
 toc: true
 video:
   src: "/media/video/gpu-intel-arc-b580-exploded-smooth.mp4"
-  webm: "/media/video/gpu-intel-arc-b580-exploded-clean.webm"
-  poster: "/media/posters/gpu-clean-transparent.png"
+  poster: "/media/posters/gpu-closed.jpg"
   label: "Vista expandida de Intel Arc B580"
-  duration: "8,75 s · 60 fps · fondo transparente"
-  analysis: "La tarjeta completa aparece al inicio; la zona interna se revela con interpolación suave y llega a la separación visual antes de volver a la lectura del artículo."
+  duration: "8,75 s · 60 fps · fondo original"
+  analysis: "La tarjeta completa aparece al inicio; la zona interna se revela con interpolación suave, conservando el fondo del render para evitar recortes duros."
 ---
 
 ## La GPU como objeto legible

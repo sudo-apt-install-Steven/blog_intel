@@ -1,20 +1,18 @@
 ---
 interface Props {
   src: string;
-  webm?: string;
   poster: string;
   label: string;
   duration: string;
   analysis: string;
 }
 
-const { src, webm, poster, label, duration, analysis } = Astro.props;
+const { src, poster, label, duration, analysis } = Astro.props;
 const id = `video-${Math.random().toString(36).slice(2)}`;
 ---
 
 <figure class="video-scrub" data-video-scrub>
   <video id={id} poster={poster} preload="metadata" muted playsinline aria-label={label}>
-    {webm && <source src={webm} type="video/webm" />}
     <source src={src} type="video/mp4" />
   </video>
   <figcaption class="video-caption">

@@ -1,44 +1,29 @@
 :root {
-  color-scheme: light;
-  --bg: #f7f9fc;
-  --bg-elevated: #ffffff;
-  --bg-soft: #edf3f8;
-  --text: #0c1420;
-  --muted: #5d6878;
-  --subtle: #7d8897;
-  --border: #d9e2ec;
-  --line: rgba(12, 20, 32, 0.12);
-  --accent: #0068ff;
-  --accent-strong: #0047b8;
-  --cyan: #16c8ff;
-  --green: #37d99b;
-  --warning: #c97916;
-  --shadow: 0 22px 70px rgba(10, 25, 47, 0.13);
-  --shadow-soft: 0 12px 34px rgba(10, 25, 47, 0.1);
+  color-scheme: dark;
+  --bg: #070918;
+  --bg-elevated: rgba(15, 20, 38, 0.82);
+  --bg-soft: rgba(24, 31, 55, 0.7);
+  --text: #f7f9ff;
+  --muted: #b4bfd4;
+  --subtle: #8793ad;
+  --border: rgba(170, 197, 255, 0.18);
+  --line: rgba(222, 233, 255, 0.12);
+  --accent: #8f78ff;
+  --accent-strong: #58d7ff;
+  --cyan: #49ddff;
+  --green: #55f0c2;
+  --warning: #f0b45f;
+  --shadow: 0 24px 86px rgba(0, 0, 0, 0.42);
+  --shadow-soft: 0 16px 46px rgba(0, 0, 0, 0.32);
   --radius: 8px;
   --radius-sm: 5px;
   --container: 1180px;
   --font-sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-display: "IBM Plex Sans", Inter, ui-sans-serif, system-ui, sans-serif;
-}
-
-:root[data-theme="dark"] {
-  color-scheme: dark;
-  --bg: #070b12;
-  --bg-elevated: #0d1420;
-  --bg-soft: #111c2a;
-  --text: #f3f7fb;
-  --muted: #a7b4c5;
-  --subtle: #8190a3;
-  --border: #213145;
-  --line: rgba(243, 247, 251, 0.13);
-  --accent: #45a3ff;
-  --accent-strong: #7bbfff;
-  --cyan: #17d7ff;
-  --green: #58e2a9;
-  --warning: #f0b45f;
-  --shadow: 0 26px 80px rgba(0, 0, 0, 0.35);
-  --shadow-soft: 0 14px 42px rgba(0, 0, 0, 0.28);
+  --ambient-x: 50%;
+  --ambient-y: 42%;
+  --scroll-depth: 0;
+  --ambient-spin: 160deg;
 }
 
 * {
@@ -47,7 +32,7 @@
 
 html {
   scroll-behavior: smooth;
-  background: var(--bg);
+  background: #050711;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -69,14 +54,59 @@ body {
   min-width: 320px;
   margin: 0;
   background:
-    radial-gradient(circle at 18% 0%, rgba(22, 200, 255, 0.09), transparent 26rem),
-    linear-gradient(180deg, var(--bg) 0%, var(--bg) 100%);
+    linear-gradient(180deg, rgba(7, 9, 24, 0.72), rgba(7, 9, 24, 0.96) 45%, #050711 100%),
+    linear-gradient(125deg, rgba(86, 63, 218, 0.22), transparent 38%, rgba(36, 205, 255, 0.14) 70%, transparent),
+    var(--bg);
   color: var(--text);
   font-family: var(--font-sans);
   font-size: 16px;
   line-height: 1.6;
   letter-spacing: 0;
   text-rendering: geometricPrecision;
+}
+
+.ambient-backdrop {
+  position: fixed;
+  inset: -18vmax;
+  z-index: -2;
+  pointer-events: none;
+  background:
+    conic-gradient(
+      from var(--ambient-spin, 160deg) at var(--ambient-x, 50%) var(--ambient-y, 42%),
+      rgba(116, 92, 255, 0.24),
+      rgba(64, 218, 255, 0.14),
+      rgba(88, 240, 194, 0.1),
+      rgba(116, 92, 255, 0.24)
+    ),
+    linear-gradient(118deg, rgba(104, 72, 255, 0.16), transparent 42%, rgba(48, 207, 255, 0.14)),
+    linear-gradient(22deg, transparent, rgba(250, 252, 255, 0.06), transparent);
+  filter: blur(48px) saturate(1.35);
+  opacity: 0.9;
+  animation: ambient-drift 14s ease-in-out infinite alternate;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.034) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.026) 1px, transparent 1px),
+    linear-gradient(180deg, transparent, rgba(5, 7, 17, 0.64) 65%, #050711);
+  background-size: 72px 72px, 72px 72px, auto;
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.62), rgba(0, 0, 0, 0.28) 56%, rgba(0, 0, 0, 0.76));
+}
+
+@keyframes ambient-drift {
+  from {
+    transform: translate3d(-1.4%, -0.8%, 0) scale(1.02);
+  }
+
+  to {
+    transform: translate3d(1.2%, 1%, 0) scale(1.05);
+  }
 }
 
 body::selection {
@@ -134,8 +164,8 @@ button {
   top: 0;
   z-index: 50;
   border-bottom: 1px solid var(--line);
-  background: color-mix(in srgb, var(--bg) 88%, transparent);
-  backdrop-filter: blur(20px);
+  background: rgba(7, 9, 24, 0.72);
+  backdrop-filter: blur(22px) saturate(1.18);
 }
 
 .header-inner {
@@ -156,31 +186,15 @@ button {
 }
 
 .brand-mark {
-  position: relative;
-  width: 32px;
-  height: 32px;
-  border: 1px solid var(--border);
-  border-radius: 7px;
-  background: linear-gradient(135deg, var(--bg-elevated), var(--bg-soft));
-  box-shadow: inset 0 0 0 4px color-mix(in srgb, var(--cyan) 12%, transparent);
-}
-
-.brand-mark::before {
-  content: "";
-  position: absolute;
-  inset: 8px;
-  border: 2px solid var(--cyan);
-  border-radius: 3px;
-}
-
-.brand-mark::after {
-  content: "";
-  position: absolute;
-  left: -5px;
-  right: -5px;
-  top: 15px;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, var(--green), transparent);
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(137, 232, 255, 0.42);
+  border-radius: 12px;
+  background: rgba(9, 14, 30, 0.82);
+  box-shadow:
+    0 0 28px rgba(79, 217, 255, 0.2),
+    inset 0 0 18px rgba(125, 92, 255, 0.22);
+  object-fit: cover;
 }
 
 .brand-copy {
@@ -203,8 +217,7 @@ button {
 }
 
 .main-nav a,
-.header-action,
-.theme-toggle {
+.header-action {
   min-height: 38px;
   border-radius: 999px;
   border: 1px solid transparent;
@@ -218,8 +231,9 @@ button {
 .main-nav a:hover,
 .main-nav a[aria-current="page"] {
   border-color: var(--border);
-  background: var(--bg-elevated);
+  background: rgba(255, 255, 255, 0.08);
   color: var(--text);
+  box-shadow: 0 0 22px rgba(73, 221, 255, 0.12);
 }
 
 .header-tools {
@@ -232,40 +246,15 @@ button {
 .header-action {
   display: inline-flex;
   align-items: center;
-  background: var(--text);
-  color: var(--bg);
+  border-color: rgba(73, 221, 255, 0.38);
+  background: linear-gradient(135deg, rgba(143, 120, 255, 0.26), rgba(73, 221, 255, 0.18));
+  color: var(--text);
+  box-shadow: inset 0 0 18px rgba(255, 255, 255, 0.08), 0 0 24px rgba(73, 221, 255, 0.12);
 }
 
 .header-action:hover {
-  color: var(--bg);
-  background: var(--accent-strong);
-}
-
-.theme-toggle {
-  display: inline-grid;
-  place-items: center;
-  width: 40px;
-  padding: 0;
-  background: var(--bg-elevated);
   color: var(--text);
-  border-color: var(--border);
-}
-
-.theme-toggle svg {
-  width: 18px;
-  height: 18px;
-}
-
-.theme-toggle .sun {
-  display: none;
-}
-
-:root[data-theme="dark"] .theme-toggle .sun {
-  display: block;
-}
-
-:root[data-theme="dark"] .theme-toggle .moon {
-  display: none;
+  background: linear-gradient(135deg, rgba(143, 120, 255, 0.38), rgba(73, 221, 255, 0.28));
 }
 
 .section {
@@ -321,8 +310,8 @@ button {
   border: 1px solid var(--text);
   border-radius: 999px;
   padding: 10px 16px;
-  background: var(--text);
-  color: var(--bg);
+  background: linear-gradient(135deg, rgba(247, 249, 255, 0.96), rgba(116, 226, 255, 0.82));
+  color: #070918;
   font-size: 0.93rem;
   font-weight: 760;
   line-height: 1.2;
@@ -330,30 +319,25 @@ button {
 
 .button:hover {
   border-color: var(--accent-strong);
-  background: var(--accent-strong);
-  color: #fff;
+  background: linear-gradient(135deg, #ffffff, var(--accent-strong));
+  color: #050711;
 }
 
 .button.secondary {
-  background: transparent;
+  background: rgba(255, 255, 255, 0.06);
   color: var(--text);
   border-color: var(--border);
 }
 
 .button.secondary:hover {
   color: var(--text);
-  background: var(--bg-elevated);
+  background: rgba(255, 255, 255, 0.11);
 }
 
 .scrub-shell {
   position: relative;
   min-height: 240vh;
-  background: #f4f6f8;
-  color: #07111f;
-}
-
-:root[data-theme="dark"] .scrub-shell {
-  background: #05070b;
+  background: #050711;
   color: #f4f8fb;
 }
 
@@ -364,10 +348,10 @@ button {
   min-height: 100vh;
   overflow: clip;
   background:
-    linear-gradient(90deg, color-mix(in srgb, var(--bg) 96%, transparent), color-mix(in srgb, var(--bg) 58%, transparent)),
-    linear-gradient(color-mix(in srgb, var(--border) 42%, transparent) 1px, transparent 1px),
-    linear-gradient(90deg, color-mix(in srgb, var(--border) 42%, transparent) 1px, transparent 1px),
-    var(--bg);
+    linear-gradient(90deg, rgba(5, 7, 17, 0.92), rgba(5, 7, 17, 0.32) 44%, rgba(5, 7, 17, 0.08)),
+    linear-gradient(color-mix(in srgb, var(--border) 35%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--border) 30%, transparent) 1px, transparent 1px),
+    #050711;
   background-size: auto, 72px 72px, 72px 72px, auto;
 }
 
@@ -376,25 +360,48 @@ button {
   position: absolute;
   inset: 0;
   z-index: 1;
-  background: linear-gradient(90deg, rgba(247, 249, 252, 0.92) 0%, rgba(247, 249, 252, 0.64) 38%, transparent 70%);
+  background:
+    linear-gradient(90deg, rgba(5, 7, 17, 0.86) 0%, rgba(5, 7, 17, 0.46) 36%, transparent 72%),
+    linear-gradient(180deg, rgba(5, 7, 17, 0.12), rgba(5, 7, 17, 0.68));
   pointer-events: none;
 }
 
-:root[data-theme="dark"] .scrub-sticky::before {
-  background: linear-gradient(90deg, rgba(5, 7, 11, 0.88) 0%, rgba(5, 7, 11, 0.55) 42%, transparent 74%);
+.scrub-sticky::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(115deg, rgba(143, 120, 255, 0.18), transparent 45%, rgba(73, 221, 255, 0.14)),
+    conic-gradient(from 220deg at 72% 46%, transparent, rgba(73, 221, 255, 0.12), rgba(143, 120, 255, 0.18), transparent);
+  mix-blend-mode: screen;
+  opacity: calc(0.42 + (var(--scrub-progress, 0) * 0.22));
 }
 
-.scrub-video {
+.scrub-video,
+.scrub-video-glow {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: 60% center;
-  opacity: 1;
-  filter: drop-shadow(0 28px 44px rgba(0, 0, 0, 0.24));
   transform: scale(1.05) translateX(5%);
   transform-origin: center center;
+}
+
+.scrub-video-glow {
+  z-index: 0;
+  opacity: 0.72;
+  filter: blur(34px) saturate(1.45) contrast(1.08);
+  transform: scale(1.16) translateX(4%);
+}
+
+.scrub-video {
+  z-index: 0;
+  opacity: 0.86;
+  filter: saturate(1.08) contrast(1.03);
 }
 
 .scrub-panel {
@@ -469,6 +476,7 @@ button {
   border: 1px solid var(--border);
   border-radius: var(--radius);
   background: var(--bg-elevated);
+  backdrop-filter: blur(18px) saturate(1.12);
   box-shadow: var(--shadow-soft);
 }
 
@@ -541,6 +549,7 @@ button {
   border: 1px solid var(--border);
   border-radius: var(--radius);
   background: var(--bg-elevated);
+  backdrop-filter: blur(18px);
   padding: 18px;
 }
 
@@ -575,7 +584,7 @@ button {
   overflow: hidden;
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  background: var(--border);
+  background: rgba(170, 197, 255, 0.18);
 }
 
 .category-band a {
@@ -584,6 +593,7 @@ button {
   min-height: 180px;
   padding: 18px;
   background: var(--bg-elevated);
+  backdrop-filter: blur(18px);
 }
 
 .category-band strong {
@@ -742,6 +752,7 @@ button {
   border: 1px solid var(--border);
   border-radius: var(--radius);
   background: var(--bg-elevated);
+  backdrop-filter: blur(18px) saturate(1.12);
   padding: 14px;
   box-shadow: var(--shadow-soft);
 }
@@ -750,12 +761,8 @@ button {
   width: 100%;
   overflow: hidden;
   border-radius: var(--radius-sm);
-  background:
-    linear-gradient(color-mix(in srgb, var(--border) 46%, transparent) 1px, transparent 1px),
-    linear-gradient(90deg, color-mix(in srgb, var(--border) 46%, transparent) 1px, transparent 1px),
-    radial-gradient(circle at 60% 38%, rgba(0, 153, 218, 0.22), transparent 46%),
-    var(--bg-soft);
-  background-size: 48px 48px, 48px 48px, auto, auto;
+  background: #050711;
+  box-shadow: 0 0 44px rgba(73, 221, 255, 0.12);
 }
 
 .video-controls {
@@ -800,6 +807,7 @@ button {
   border: 1px solid var(--border);
   border-radius: var(--radius);
   background: var(--bg-elevated);
+  backdrop-filter: blur(18px);
   padding: 20px;
 }
 
@@ -868,6 +876,7 @@ button {
   border: 1px solid var(--border);
   border-radius: var(--radius);
   background: var(--bg-elevated);
+  backdrop-filter: blur(18px);
   padding: 20px;
 }
 
@@ -898,7 +907,8 @@ button {
 
 .site-footer {
   border-top: 1px solid var(--border);
-  background: var(--bg-elevated);
+  background: rgba(8, 11, 24, 0.76);
+  backdrop-filter: blur(18px);
 }
 
 .footer-inner {
@@ -1019,10 +1029,14 @@ button {
     padding-bottom: 48px;
   }
 
-  .scrub-video {
+  .scrub-video,
+  .scrub-video-glow {
     object-position: 66% center;
-    opacity: 0.86;
     transform: scale(1.08) translateX(7%);
+  }
+
+  .scrub-video {
+    opacity: 0.86;
   }
 
   .video-controls {

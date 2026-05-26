@@ -4,19 +4,29 @@
 <section class="scrub-shell" data-scrub-hero aria-label="Vista expandida de un procesador Intel Core">
   <div class="scrub-sticky">
     <video
+      class="scrub-video-glow"
+      data-scrub-glow
+      poster="/media/posters/cpu-closed.jpg"
+      preload="auto"
+      muted
+      playsinline
+      aria-hidden="true"
+    >
+      <source src="/media/video/cpu-intel-core-exploded-smooth.mp4" type="video/mp4" />
+    </video>
+    <video
       class="scrub-video"
       data-scrub-video
-      poster="/media/posters/cpu-clean-transparent.png"
+      poster="/media/posters/cpu-closed.jpg"
       preload="auto"
       muted
       playsinline
       aria-label="Video de un procesador Intel Core pasando de vista completa a vista expandida"
     >
-      <source src="/media/video/cpu-intel-core-exploded-clean.webm" type="video/webm" />
       <source src="/media/video/cpu-intel-core-exploded-smooth.mp4" type="video/mp4" />
     </video>
     <div class="scrub-panel">
-      <h1>El chip,<br />capa por capa.</h1>
+      <h1 aria-label="El chip, capa por capa.">El chip,<br />capa por capa.</h1>
       <p>
         Un blog en español para mirar la tecnología Intel con calma: procesadores, gráficos Arc, IA,
         ecosistema PC y las decisiones que conectan silicio con experiencia real.
@@ -37,12 +47,14 @@
   (() => {
     const shell = document.querySelector("[data-scrub-hero]");
     const video = document.querySelector("[data-scrub-video]");
+    const glow = document.querySelector("[data-scrub-glow]");
     if (!shell || !video) return;
 
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduced) {
       shell.classList.add("is-static");
       video.pause();
+      glow?.pause();
       return;
     }
 
@@ -51,6 +63,7 @@
     let renderedTime = 0;
     let rafId = 0;
     video.pause();
+    glow?.pause();
 
     const clamp = (value) => Math.min(1, Math.max(0, value));
     const updateTarget = () => {
@@ -71,6 +84,7 @@
 
       if (Number.isFinite(renderedTime) && Math.abs(video.currentTime - renderedTime) > 0.012) {
         video.currentTime = renderedTime;
+        if (glow) glow.currentTime = renderedTime;
       }
 
       rafId = window.requestAnimationFrame(tick);
