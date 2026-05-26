@@ -7,7 +7,7 @@ import { categories } from "../data/categories";
 
 const posts = (await getCollection("blog")).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 const featured = posts.filter((post) => post.data.featured).slice(0, 3);
-const latest = posts.slice(0, 3);
+const latest = posts.slice(0, 6);
 ---
 
 <BaseLayout
@@ -44,6 +44,21 @@ const latest = posts.slice(0, 3);
           <a class="button" href="/blog/arc-b580-grafica-1440p/">Leer análisis</a>
           <a class="button secondary" href="/categorias/graficos-intel-arc/">Ver categoría</a>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container editorial-note">
+      <span class="eyeless-label">Criterio editorial</span>
+      <div>
+        <h2>Un blog para leer tecnología con más calma.</h2>
+        <p>
+          Miraidon Blogs no está pensado como una galería de componentes ni como una página de venta. La idea es construir un archivo escolar y técnico con entradas largas, navegación clara y explicaciones que separan cada tema en capas: qué es, cómo funciona, dónde se usa, qué límites tiene y por qué importa para una persona que elige una PC.
+        </p>
+        <p>
+          Por eso el diseño usa una portada animada y un lenguaje visual de alto nivel, pero el contenido mantiene una estructura de blog: artículos, categorías, fechas, fuentes, barra lateral, comentarios simulados y guías de lectura. La estética abre la puerta; el texto sostiene la visita.
+        </p>
       </div>
     </div>
   </section>

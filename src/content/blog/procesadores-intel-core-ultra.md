@@ -37,6 +37,18 @@ Lo importante es mirar tres preguntas:
 
 El video de la portada no está puesto solo para decorar. La vista expandida ayuda a leer el procesador como un conjunto de capas: placa, encapsulado, marco metálico, matriz de silicio y tapa. Esa forma de ver el objeto es una metáfora honesta para el blog: abrir un tema y separar sus partes hasta que se pueda entender.
 
+## Rendimiento sostenido y experiencia diaria
+
+En una ficha técnica suele aparecer una idea de potencia máxima, pero el uso real depende de cuánto tiempo puede sostenerse ese rendimiento. Una laptop delgada puede sentirse muy rápida al abrir una aplicación y, al mismo tiempo, bajar frecuencia cuando el calor se acumula. Un equipo de escritorio, con más espacio para refrigeración, puede mantener cargas pesadas durante más tiempo.
+
+Por eso no conviene hablar del procesador como una pieza aislada. El mismo chip puede comportarse distinto según el gabinete, el sistema de ventilación, el perfil de energía, la memoria instalada y el tipo de tarea. Para estudiar, navegar y escribir, la respuesta instantánea pesa más que el número máximo. Para editar, compilar o renderizar, importa la estabilidad durante minutos u horas.
+
+## Qué mirar antes de comparar generaciones
+
+Comparar procesadores solo por nombre puede confundir. Una lectura más justa observa la generación, la familia, el tipo de equipo, el consumo, el número de núcleos, las funciones integradas y la plataforma donde se instala. También conviene revisar si el software que usas aprovecha instrucciones, gráficos integrados o aceleración de IA.
+
+La pregunta práctica sería: ¿este procesador mejora mi rutina concreta? Si la respuesta es abrir más pestañas, exportar video más rápido, jugar con menos interrupciones o usar herramientas creativas con más fluidez, entonces la tecnología deja de ser abstracta y se vuelve una decisión de uso.
+
 ## Lectura recomendada
 
 Para ampliar el tema, consulta la página oficial de [procesadores Intel](https://www.intel.la/content/www/xl/es/products/details/processors.html), donde aparecen las familias Core Ultra, Core, Xeon, Xeon Max y Atom.

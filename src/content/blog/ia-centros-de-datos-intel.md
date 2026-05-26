@@ -31,6 +31,18 @@ El hardware no basta si el software no lo aprovecha. Herramientas como OpenVINO,
 
 La IA también se acerca al usuario final. Las PCs con aceleración local pueden ejecutar efectos, asistentes, edición y generación sin depender siempre de la nube. Eso no reemplaza a los centros de datos, pero reparte mejor las tareas: algunas cerca del usuario, otras en infraestructura especializada.
 
+## Privacidad, latencia y energía
+
+No todo problema necesita viajar a un servidor remoto. Algunas tareas de IA pueden ejecutarse cerca del usuario para reducir espera, cuidar datos sensibles o funcionar con menos dependencia de conexión. Otras requieren tanta memoria, coordinación o potencia que tiene más sentido enviarlas a infraestructura de centro de datos.
+
+La decisión no es solo técnica; también es económica y ambiental. Ejecutar modelos grandes cuesta energía, refrigeración y mantenimiento. Si una tarea pequeña puede resolverse localmente, el sistema completo puede ser más eficiente. Si una tarea enorme exige precisión y escala, el centro de datos sigue siendo el lugar natural.
+
+## Por qué esto importa en un blog escolar
+
+Hablar de IA sin explicar infraestructura deja la conversación incompleta. Detrás de un asistente, un filtro de cámara o una recomendación hay servidores, chips, redes, software y políticas de datos. El lector no necesita convertirse en ingeniero para entenderlo, pero sí puede aprender a hacer mejores preguntas.
+
+Una buena entrada de blog puede traducir esa complejidad: qué parte ocurre en la PC, qué parte ocurre en la nube, qué datos se procesan y qué beneficio recibe el usuario. Esa mirada convierte la IA de una palabra de moda en un tema que se puede analizar.
+
 ## Idea central
 
 La pregunta importante no es solo “qué chip es más potente”. También hay que preguntar qué sistema completo lo acompaña, qué software lo usa y qué problema intenta resolver.

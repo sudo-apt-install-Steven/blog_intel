@@ -336,7 +336,7 @@ button {
 
 .scrub-shell {
   position: relative;
-  min-height: 290vh;
+  min-height: 330vh;
   background: #050711;
   color: #f4f8fb;
 }
@@ -470,8 +470,9 @@ button {
   box-shadow: 0 0 28px rgba(73, 221, 255, 0.12);
 }
 
-.scrub-video,
-.scrub-video-glow {
+.scrub-fallback,
+.scrub-canvas,
+.scrub-canvas-glow {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -482,14 +483,25 @@ button {
   transform-origin: center center;
 }
 
-.scrub-video-glow {
+.scrub-fallback {
+  z-index: 0;
+  opacity: 0.86;
+  filter: saturate(1.08) contrast(1.03);
+  transition: opacity 280ms ease;
+}
+
+.scrub-shell.is-ready .scrub-fallback {
+  opacity: 0;
+}
+
+.scrub-canvas-glow {
   z-index: 0;
   opacity: 0.72;
   filter: blur(34px) saturate(1.45) contrast(1.08);
   transform: scale(1.16) translateX(4%);
 }
 
-.scrub-video {
+.scrub-canvas {
   z-index: 0;
   opacity: 0.86;
   filter: saturate(1.08) contrast(1.03);
@@ -727,6 +739,34 @@ button {
 .feature-copy p {
   margin: 0;
   color: var(--muted);
+}
+
+.editorial-note {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  gap: 28px;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 36px 0;
+}
+
+.editorial-note h2 {
+  max-width: 840px;
+  margin: 0 0 16px;
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3vw, 3.2rem);
+  line-height: 0.98;
+}
+
+.editorial-note p {
+  max-width: 900px;
+  margin: 0 0 14px;
+  color: var(--muted);
+  font-size: clamp(1rem, 1.2vw, 1.12rem);
+}
+
+.editorial-note p:last-child {
+  margin-bottom: 0;
 }
 
 .page-hero {
@@ -1070,6 +1110,7 @@ button {
   .grid-3,
   .category-band,
   .feature-strip,
+  .editorial-note,
   .layout-with-sidebar,
   .answers-grid,
   .footer-inner {
@@ -1139,13 +1180,14 @@ button {
     padding-bottom: 48px;
   }
 
-  .scrub-video,
-  .scrub-video-glow {
+  .scrub-fallback,
+  .scrub-canvas,
+  .scrub-canvas-glow {
     object-position: 66% center;
     transform: scale(1.08) translateX(7%);
   }
 
-  .scrub-video {
+  .scrub-canvas {
     opacity: 0.86;
   }
 

@@ -44,6 +44,18 @@ Según la ficha oficial de Intel Arc B580, la tarjeta incluye 12 GB de memoria G
 
 El control de video permite detenerse en las partes que normalmente pasan demasiado rápido. En vez de mirar una animación como publicidad, la entrada la convierte en material de lectura: observar, pausar, comparar y entender.
 
+## 1440p como punto de equilibrio
+
+Hablar de 1440p no es solo hablar de resolución. Es un punto intermedio donde la imagen gana detalle frente a 1080p sin exigir tanto como 4K. Para una GPU moderna, ese terreno revela muy bien la relación entre memoria, ancho de banda, controladores, escalado y estabilidad de FPS.
+
+En un juego competitivo, quizá el usuario prefiera bajar algunos efectos para ganar respuesta. En una aventura visual, puede priorizar iluminación, texturas y fluidez constante. En ambos casos, tecnologías de escalado como XeSS pueden ayudar a sostener una experiencia más cómoda, siempre que el juego y la configuración acompañen.
+
+## Creación, streaming y video
+
+La Arc B580 también puede leerse desde el lado creativo. El soporte de AV1 por hardware es relevante para quienes graban, transmiten o exportan contenido, porque permite trabajar con códecs modernos de forma más eficiente. La tarjeta deja de ser solo “la pieza para jugar” y se vuelve parte de un flujo de producción.
+
+Por eso conviene mirar la GPU como una estación de trabajo pequeña: renderiza gráficos, acelera efectos, codifica video, maneja pantallas y ayuda a que el sistema no dependa únicamente del procesador. En un blog, esa lectura por capas permite comparar usos cotidianos con datos técnicos sin convertir la entrada en una tabla fría.
+
 ## Fuentes oficiales
 
 Puedes contrastar los datos en la página de [gráficos Intel Arc serie B para desktop](https://www.intel.la/content/www/xl/es/products/docs/discrete-gpus/arc/desktop/b-series/overview.html) y en la ficha de [Intel Arc B580](https://www.intel.la/content/www/xl/es/products/sku/241598/intel-arc-b580-graphics/specifications.html).

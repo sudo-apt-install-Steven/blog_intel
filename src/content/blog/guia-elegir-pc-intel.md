@@ -37,6 +37,18 @@ Si solo usas tareas básicas, los gráficos integrados pueden ser suficientes. S
 
 La memoria afecta multitarea y proyectos pesados. El almacenamiento afecta tiempos de carga, instalación de programas y manejo de archivos grandes. Un equipo equilibrado suele sentirse mejor que uno con un componente brillante y otro limitado.
 
+## Perfiles de usuario
+
+Para estudiar, una buena PC debe abrir rápido, aguantar muchas pestañas, durar varias horas y no volverse incómoda por ruido o calor. Para programación, conviene priorizar memoria, almacenamiento y un procesador capaz de compilar sin bloquear el resto del sistema. Para creación, la GPU, los códecs de video y el espacio de almacenamiento se vuelven mucho más importantes.
+
+En juegos, el monitor define parte de la compra. No tiene sentido perseguir el mismo hardware para 1080p, 1440p y 4K. También cambia si el usuario prefiere gráficos altos, más FPS, menor latencia o una experiencia silenciosa. La PC ideal aparece cuando el equipo responde a una prioridad clara.
+
+## Señales de una compra equilibrada
+
+Una configuración equilibrada tiene memoria suficiente para durar, almacenamiento rápido, conectores útiles, refrigeración razonable y una fuente de energía adecuada. También debe dejar claro qué se puede actualizar después. Si todo depende de una sola pieza “estrella”, probablemente haya un punto débil escondido.
+
+Antes de comprar, revisa tres cosas que muchos olvidan: garantía, disponibilidad de controladores y compatibilidad con el software que realmente vas a usar. Esas partes no lucen en una foto, pero pueden decidir si la experiencia diaria se siente profesional o frustrante.
+
 ## Regla final
 
 Compra para el flujo de trabajo que realmente tienes, pero deja margen para el que quieres construir. Un blog, un proyecto escolar o una PC de creación mejoran cuando la tecnología se elige con intención.

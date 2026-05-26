@@ -3,28 +3,16 @@
 
 <section class="scrub-shell" data-scrub-hero aria-label="Vista expandida de un procesador Intel">
   <div class="scrub-sticky">
-    <video
-      class="scrub-video-glow"
-      data-scrub-glow
-      poster="/media/posters/cpu-xeon-closed.jpg"
-      preload="auto"
-      muted
-      playsinline
-      aria-hidden="true"
-    >
-      <source src="/media/video/cpu-intel-xeon-exploded-scroll.mp4?v=keyframe-scrub" type="video/mp4" />
-    </video>
-    <video
-      class="scrub-video"
-      data-scrub-video
-      poster="/media/posters/cpu-xeon-closed.jpg"
-      preload="auto"
-      muted
-      playsinline
-      aria-label="Video de un procesador Intel pasando de vista completa a vista expandida"
-    >
-      <source src="/media/video/cpu-intel-xeon-exploded-scroll.mp4?v=keyframe-scrub" type="video/mp4" />
-    </video>
+    <img class="scrub-fallback" src="/media/posters/cpu-xeon-closed.jpg" alt="" aria-hidden="true" />
+    <canvas class="scrub-canvas-glow" data-scrub-canvas-glow width="1440" height="810" aria-hidden="true"></canvas>
+    <canvas
+      class="scrub-canvas"
+      data-scrub-canvas
+      width="1440"
+      height="810"
+      role="img"
+      aria-label="Secuencia de un procesador Intel pasando de vista completa a vista expandida"
+    ></canvas>
     <div class="scrub-vector-field" aria-hidden="true">
       <span></span>
       <span></span>
@@ -55,27 +43,137 @@
 <script is:inline>
   (() => {
     const shell = document.querySelector("[data-scrub-hero]");
-    const video = document.querySelector("[data-scrub-video]");
-    const glow = document.querySelector("[data-scrub-glow]");
-    if (!shell || !video) return;
+    const canvas = document.querySelector("[data-scrub-canvas]");
+    const glowCanvas = document.querySelector("[data-scrub-canvas-glow]");
+    if (!shell || !canvas) return;
 
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduced) {
-      shell.classList.add("is-static");
-      video.pause();
-      glow?.pause();
-      return;
+    const context = canvas.getContext("2d", { alpha: false });
+    const glowContext = glowCanvas?.getContext("2d", { alpha: false });
+    if (!context) return;
+    context.imageSmoothingEnabled = true;
+    context.imageSmoothingQuality = "high";
+    if (glowContext) {
+      glowContext.imageSmoothingEnabled = true;
+      glowContext.imageSmoothingQuality = "high";
     }
 
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const frameReadout = document.querySelector("[data-scrub-frame]");
-    let duration = 8;
-    let targetTime = 0;
-    let renderedTime = 0;
-    let rafId = 0;
-    video.pause();
-    glow?.pause();
+    const totalFrames = 192;
+    const maxFrame = totalFrames - 1;
+    const frameCache = new Map();
+    const pendingFrameEvents = new Set();
+    let targetFrame = 0;
+    let renderedFrame = 0;
+    let lastDrawnStamp = "";
+    let preloadCursor = 0;
 
     const clamp = (value) => Math.min(1, Math.max(0, value));
+    const clampFrame = (value) => Math.min(maxFrame, Math.max(0, value));
+    const frameUrl = (index) => `/media/frames/cpu-xeon/${String(index + 1).padStart(4, "0")}.webp?v=canvas-scrub`;
+
+    const loadFrame = (index) => {
+      const safeIndex = Math.round(clampFrame(index));
+      if (frameCache.has(safeIndex)) return frameCache.get(safeIndex);
+
+      const image = new Image();
+      image.decoding = "async";
+      image.src = frameUrl(safeIndex);
+      frameCache.set(safeIndex, image);
+      return image;
+    };
+
+    const requestIdle = window.requestIdleCallback ?? ((callback) => window.setTimeout(() => callback({ timeRemaining: () => 8 }), 32));
+
+    const scheduleFullPreload = () => {
+      requestIdle((deadline) => {
+        let batch = 0;
+        while (preloadCursor <= maxFrame && (deadline.timeRemaining() > 2 || batch < 6)) {
+          loadFrame(preloadCursor);
+          preloadCursor += 1;
+          batch += 1;
+        }
+        if (preloadCursor <= maxFrame) scheduleFullPreload();
+      });
+    };
+
+    const onFrameReady = (image, frame, callback) => {
+      if (image.complete && image.naturalWidth) {
+        callback();
+        return;
+      }
+
+      if (pendingFrameEvents.has(frame)) return;
+      pendingFrameEvents.add(frame);
+      image.addEventListener("load", () => {
+        pendingFrameEvents.delete(frame);
+        callback();
+      }, { once: true });
+    };
+
+    const drawCover = (ctx, image, alpha = 1) => {
+      const width = ctx.canvas.width;
+      const height = ctx.canvas.height;
+      const scale = Math.max(width / image.naturalWidth, height / image.naturalHeight);
+      const drawWidth = image.naturalWidth * scale;
+      const drawHeight = image.naturalHeight * scale;
+      const left = (width - drawWidth) / 2;
+      const top = (height - drawHeight) / 2;
+      ctx.globalAlpha = alpha;
+      ctx.drawImage(image, left, top, drawWidth, drawHeight);
+      ctx.globalAlpha = 1;
+    };
+
+    const drawBlend = (ctx, currentImage, nextImage, blend) => {
+      ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+      drawCover(ctx, currentImage, 1);
+      if (nextImage && blend > 0.015) {
+        const easedBlend = blend * blend * (3 - 2 * blend);
+        drawCover(ctx, nextImage, easedBlend);
+      }
+    };
+
+    const pruneCache = (center) => {
+      if (frameCache.size < 112) return;
+      for (const key of frameCache.keys()) {
+        if (Math.abs(key - center) > 46 && key !== 0 && key !== maxFrame) {
+          frameCache.delete(key);
+          if (frameCache.size < 92) break;
+        }
+      }
+    };
+
+    const prefetchAround = (center) => {
+      for (let offset = -18; offset <= 28; offset += 1) {
+        const index = center + offset;
+        if (index >= 0 && index <= maxFrame) loadFrame(index);
+      }
+      pruneCache(center);
+    };
+
+    const renderFrame = (index) => {
+      const framePosition = clampFrame(index);
+      const currentFrame = Math.floor(framePosition);
+      const nextFrame = Math.min(maxFrame, currentFrame + 1);
+      const blend = framePosition - currentFrame;
+      const currentImage = loadFrame(currentFrame);
+      const nextImage = loadFrame(nextFrame);
+      const stamp = `${currentFrame}:${nextFrame}:${Math.round(blend * 100)}`;
+      prefetchAround(Math.round(framePosition));
+
+      if (!currentImage.complete || !currentImage.naturalWidth) {
+        onFrameReady(currentImage, currentFrame, () => renderFrame(renderedFrame));
+        return;
+      }
+
+      if (stamp === lastDrawnStamp) return;
+      const readyNextImage = nextImage.complete && nextImage.naturalWidth ? nextImage : null;
+      drawBlend(context, currentImage, readyNextImage, blend);
+      if (glowContext) drawBlend(glowContext, currentImage, readyNextImage, blend);
+      lastDrawnStamp = stamp;
+      shell.classList.add("is-ready");
+    };
+
     const updateTarget = () => {
       const rect = shell.getBoundingClientRect();
       const scrollDistance = Math.max(1, shell.offsetHeight - window.innerHeight);
@@ -93,35 +191,35 @@
       shell.style.setProperty("--scrub-shift-subtle-neg", `${(-shift * 0.2).toFixed(2)}px`);
       shell.style.setProperty("--scrub-shift-wide", `${(shift * 0.7).toFixed(2)}px`);
       if (frameReadout) frameReadout.textContent = String(Math.round(progress * 191) + 1).padStart(3, "0");
-      targetTime = progress * duration;
+      targetFrame = progress * maxFrame;
     };
 
     const tick = () => {
-      const delta = targetTime - renderedTime;
-      renderedTime += delta * 0.16;
+      const delta = targetFrame - renderedFrame;
+      renderedFrame += delta * 0.16;
 
-      if (Math.abs(delta) < 0.002) {
-        renderedTime = targetTime;
+      if (Math.abs(delta) < 0.08) {
+        renderedFrame = targetFrame;
       }
 
-      if (Number.isFinite(renderedTime) && Math.abs(video.currentTime - renderedTime) > 0.004) {
-        const nextTime = Math.min(duration, Math.max(0, renderedTime));
-        video.currentTime = nextTime;
-        if (glow) glow.currentTime = nextTime;
-      }
+      renderFrame(renderedFrame);
 
-      rafId = window.requestAnimationFrame(tick);
+      window.requestAnimationFrame(tick);
     };
 
-    video.addEventListener("loadedmetadata", () => {
-      duration = video.duration || 8;
-      updateTarget();
-      if (!rafId) tick();
-    });
+    [0, 1, 2, 3, 4, 5, 8, 12, 18, 24, 36, 52, 72, 96, 128, 160, maxFrame].forEach(loadFrame);
+    renderFrame(0);
+    updateTarget();
 
     window.addEventListener("scroll", updateTarget, { passive: true });
     window.addEventListener("resize", updateTarget);
-    updateTarget();
+
+    if (reduced) {
+      shell.classList.add("is-static");
+      return;
+    }
+
+    scheduleFullPreload();
     tick();
   })();
 </script>
