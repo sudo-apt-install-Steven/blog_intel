@@ -10,7 +10,7 @@ heroAlt: "Composición editorial de Intel Arc B580 con tarjeta gráfica y capas 
 featured: true
 toc: true
 video:
-  src: "/media/video/gpu-intel-arc-exploded-scroll.mp4"
+  src: "/media/video/gpu-intel-arc-exploded-scroll.mp4?v=keyframe-scrub"
   poster: "/media/posters/gpu-arc-closed.jpg"
   label: "Vista expandida de Intel Arc B580"
   duration: "8 s · 60 fps · fondo original"

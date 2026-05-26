@@ -12,7 +12,7 @@
       playsinline
       aria-hidden="true"
     >
-      <source src="/media/video/cpu-intel-xeon-exploded-scroll.mp4" type="video/mp4" />
+      <source src="/media/video/cpu-intel-xeon-exploded-scroll.mp4?v=keyframe-scrub" type="video/mp4" />
     </video>
     <video
       class="scrub-video"
@@ -23,7 +23,7 @@
       playsinline
       aria-label="Video de un procesador Intel pasando de vista completa a vista expandida"
     >
-      <source src="/media/video/cpu-intel-xeon-exploded-scroll.mp4" type="video/mp4" />
+      <source src="/media/video/cpu-intel-xeon-exploded-scroll.mp4?v=keyframe-scrub" type="video/mp4" />
     </video>
     <div class="scrub-vector-field" aria-hidden="true">
       <span></span>
@@ -98,15 +98,16 @@
 
     const tick = () => {
       const delta = targetTime - renderedTime;
-      renderedTime += delta * 0.22;
+      renderedTime += delta * 0.16;
 
-      if (Math.abs(delta) < 0.006) {
+      if (Math.abs(delta) < 0.002) {
         renderedTime = targetTime;
       }
 
-      if (Number.isFinite(renderedTime) && Math.abs(video.currentTime - renderedTime) > 0.012) {
-        video.currentTime = renderedTime;
-        if (glow) glow.currentTime = renderedTime;
+      if (Number.isFinite(renderedTime) && Math.abs(video.currentTime - renderedTime) > 0.004) {
+        const nextTime = Math.min(duration, Math.max(0, renderedTime));
+        video.currentTime = nextTime;
+        if (glow) glow.currentTime = nextTime;
       }
 
       rafId = window.requestAnimationFrame(tick);
