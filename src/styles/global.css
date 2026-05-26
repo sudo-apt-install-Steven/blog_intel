@@ -363,7 +363,12 @@ button {
   display: grid;
   min-height: 100vh;
   overflow: clip;
-  background: var(--bg);
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--bg) 96%, transparent), color-mix(in srgb, var(--bg) 58%, transparent)),
+    linear-gradient(color-mix(in srgb, var(--border) 42%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--border) 42%, transparent) 1px, transparent 1px),
+    var(--bg);
+  background-size: auto, 72px 72px, 72px 72px, auto;
 }
 
 .scrub-sticky::before {
@@ -386,7 +391,8 @@ button {
   height: 100%;
   object-fit: cover;
   object-position: 60% center;
-  opacity: 0.92;
+  opacity: 1;
+  filter: drop-shadow(0 28px 44px rgba(0, 0, 0, 0.24));
   transform: scale(1.05) translateX(5%);
   transform-origin: center center;
 }
@@ -744,7 +750,12 @@ button {
   width: 100%;
   overflow: hidden;
   border-radius: var(--radius-sm);
-  background: #05070b;
+  background:
+    linear-gradient(color-mix(in srgb, var(--border) 46%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--border) 46%, transparent) 1px, transparent 1px),
+    radial-gradient(circle at 60% 38%, rgba(0, 153, 218, 0.22), transparent 46%),
+    var(--bg-soft);
+  background-size: 48px 48px, 48px 48px, auto, auto;
 }
 
 .video-controls {
@@ -1010,7 +1021,7 @@ button {
 
   .scrub-video {
     object-position: 66% center;
-    opacity: 0.78;
+    opacity: 0.86;
     transform: scale(1.08) translateX(7%);
   }
 

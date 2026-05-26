@@ -5,8 +5,8 @@ category: "ecosistema-pc"
 tags: ["PC", "componentes", "placa madre", "memoria", "red"]
 date: 2026-05-23
 readingTime: "6 min"
-hero: "/media/posters/gpu-closed.jpg"
-heroAlt: "Tarjeta gráfica Intel Arc cerrada sobre fondo oscuro"
+hero: "/media/covers/intel-pc-ecosystem.webp"
+heroAlt: "Mapa editorial de componentes de PC conectados sobre una placa madre"
 featured: false
 toc: true
 ---

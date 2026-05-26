@@ -5,16 +5,17 @@ category: "graficos-intel-arc"
 tags: ["Intel Arc", "B580", "GPU", "XeSS", "gaming"]
 date: 2026-05-25
 readingTime: "8 min"
-hero: "/media/posters/gpu-open.jpg"
-heroAlt: "Intel Arc B580 en vista expandida con ventiladores, PCB y disipador"
+hero: "/media/covers/intel-arc-b580-layers.webp"
+heroAlt: "Composición editorial de Intel Arc B580 con tarjeta gráfica y capas técnicas"
 featured: true
 toc: true
 video:
-  src: "/media/video/gpu-intel-arc-b580-exploded.mp4"
-  poster: "/media/posters/gpu-closed.jpg"
+  src: "/media/video/gpu-intel-arc-b580-exploded-smooth.mp4"
+  webm: "/media/video/gpu-intel-arc-b580-exploded-clean.webm"
+  poster: "/media/posters/gpu-clean-transparent.png"
   label: "Vista expandida de Intel Arc B580"
-  duration: "10 s · 24 fps · 240 frames"
-  analysis: "La tarjeta completa aparece al inicio; la zona interna se revela desde aproximadamente el frame 64 y la mayor separación visual ocurre cerca de los frames 202 a 207."
+  duration: "8,75 s · 60 fps · fondo transparente"
+  analysis: "La tarjeta completa aparece al inicio; la zona interna se revela con interpolación suave y llega a la separación visual antes de volver a la lectura del artículo."
 ---
 
 ## La GPU como objeto legible

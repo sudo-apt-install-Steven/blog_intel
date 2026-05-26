@@ -5,8 +5,8 @@ category: "ia-centros-de-datos"
 tags: ["IA", "centros de datos", "Gaudi", "OpenVINO", "Xeon"]
 date: 2026-05-24
 readingTime: "6 min"
-hero: "/media/posters/cpu-open.jpg"
-heroAlt: "Vista de silicio y componentes internos de un procesador"
+hero: "/media/covers/intel-ai-data-center.webp"
+heroAlt: "Infraestructura de IA con nodos conectados y racks de centro de datos"
 featured: true
 toc: true
 ---

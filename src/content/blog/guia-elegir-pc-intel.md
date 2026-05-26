@@ -5,8 +5,8 @@ category: "guias"
 tags: ["guía", "compra", "PC", "rendimiento"]
 date: 2026-05-22
 readingTime: "7 min"
-hero: "/media/posters/cpu-closed.jpg"
-heroAlt: "Procesador Intel Core completo antes de la vista expandida"
+hero: "/media/covers/intel-pc-guide.webp"
+heroAlt: "Escena editorial de guía de compra con lista, laptop y chips"
 featured: false
 toc: true
 ---

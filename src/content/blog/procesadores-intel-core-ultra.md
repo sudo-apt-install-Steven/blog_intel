@@ -5,8 +5,8 @@ category: "procesadores"
 tags: ["Intel Core Ultra", "CPU", "IA", "laptops"]
 date: 2026-05-25
 readingTime: "7 min"
-hero: "/media/posters/cpu-open.jpg"
-heroAlt: "Procesador Intel Core en vista expandida mostrando capas internas"
+hero: "/media/covers/intel-core-ultra-platform.webp"
+heroAlt: "Composición editorial de Intel Core Ultra como plataforma de CPU, gráficos e IA"
 featured: true
 toc: true
 ---

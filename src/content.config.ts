@@ -24,6 +24,7 @@ const blog = defineCollection({
     video: z
       .object({
         src: z.string(),
+        webm: z.string().optional(),
         poster: z.string(),
         label: z.string(),
         duration: z.string(),

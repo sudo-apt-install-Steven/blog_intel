@@ -6,13 +6,15 @@
     <video
       class="scrub-video"
       data-scrub-video
-      src="/media/video/cpu-intel-core-exploded.mp4"
-      poster="/media/posters/cpu-closed.jpg"
-      preload="metadata"
+      poster="/media/posters/cpu-clean-transparent.png"
+      preload="auto"
       muted
       playsinline
       aria-label="Video de un procesador Intel Core pasando de vista completa a vista expandida"
-    ></video>
+    >
+      <source src="/media/video/cpu-intel-core-exploded-clean.webm" type="video/webm" />
+      <source src="/media/video/cpu-intel-core-exploded-smooth.mp4" type="video/mp4" />
+    </video>
     <div class="scrub-panel">
       <h1>El chip,<br />capa por capa.</h1>
       <p>
@@ -44,27 +46,45 @@
       return;
     }
 
-    let duration = 9.96;
+    let duration = 7.4;
+    let targetTime = 0;
+    let renderedTime = 0;
+    let rafId = 0;
     video.pause();
 
     const clamp = (value) => Math.min(1, Math.max(0, value));
-    const update = () => {
+    const updateTarget = () => {
       const rect = shell.getBoundingClientRect();
       const scrollDistance = Math.max(1, shell.offsetHeight - window.innerHeight);
       const progress = clamp((0 - rect.top) / scrollDistance);
       shell.style.setProperty("--scrub-progress", progress.toFixed(4));
-      if (Number.isFinite(duration) && duration > 0) {
-        video.currentTime = progress * duration;
+      targetTime = progress * duration;
+    };
+
+    const tick = () => {
+      const delta = targetTime - renderedTime;
+      renderedTime += delta * 0.22;
+
+      if (Math.abs(delta) < 0.006) {
+        renderedTime = targetTime;
       }
+
+      if (Number.isFinite(renderedTime) && Math.abs(video.currentTime - renderedTime) > 0.012) {
+        video.currentTime = renderedTime;
+      }
+
+      rafId = window.requestAnimationFrame(tick);
     };
 
     video.addEventListener("loadedmetadata", () => {
-      duration = Math.min(video.duration || 9.96, 9.96);
-      update();
+      duration = Math.min(video.duration || 7.4, 7.4);
+      updateTarget();
+      if (!rafId) tick();
     });
 
-    window.addEventListener("scroll", update, { passive: true });
-    window.addEventListener("resize", update);
-    update();
+    window.addEventListener("scroll", updateTarget, { passive: true });
+    window.addEventListener("resize", updateTarget);
+    updateTarget();
+    tick();
   })();
 </script>
