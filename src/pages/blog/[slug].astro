@@ -1,0 +1,52 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import TopicSidebar from "../../components/TopicSidebar.astro";
+import CommentsBox from "../../components/CommentsBox.astro";
+import VideoScrub from "../../components/VideoScrub.astro";
+import { getCategory } from "../../data/categories";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog");
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post }
+  }));
+}
+
+const { post } = Astro.props;
+const { Content, headings } = await render(post);
+const category = getCategory(post.data.category);
+---
+
+<BaseLayout title={post.data.title} description={post.data.description} image={post.data.hero}>
+  <article class="post-shell">
+    <div class="container">
+      <header class="post-header">
+        <div class="meta-row">
+          <a href={`/categorias/${post.data.category}/`}>{category?.label}</a>
+          <span>{post.data.readingTime}</span>
+          <time datetime={post.data.date.toISOString()}>
+            {post.data.date.toLocaleDateString("es", { day: "2-digit", month: "long", year: "numeric", timeZone: "UTC" })}
+          </time>
+        </div>
+        <h1>{post.data.title}</h1>
+        <p>{post.data.description}</p>
+        <figure class="post-hero">
+          <img src={post.data.hero} alt={post.data.heroAlt} />
+        </figure>
+      </header>
+
+      <div class="layout-with-sidebar">
+        <div>
+          {post.data.video && <VideoScrub {...post.data.video} />}
+          <div class="prose">
+            <Content />
+          </div>
+          <CommentsBox slug={post.id} />
+        </div>
+        <TopicSidebar headings={post.data.toc ? headings : []} />
+      </div>
+    </div>
+  </article>
+</BaseLayout>

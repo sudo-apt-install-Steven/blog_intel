@@ -1,0 +1,58 @@
+---
+interface Props {
+  src: string;
+  poster: string;
+  label: string;
+  duration: string;
+  analysis: string;
+}
+
+const { src, poster, label, duration, analysis } = Astro.props;
+const id = `video-${Math.random().toString(36).slice(2)}`;
+---
+
+<figure class="video-scrub" data-video-scrub>
+  <video id={id} src={src} poster={poster} preload="metadata" muted playsinline aria-label={label}></video>
+  <figcaption class="video-caption">
+    <strong>{label}.</strong> {analysis}
+  </figcaption>
+  <div class="video-controls">
+    <button class="icon-button" type="button" aria-label="Reproducir o pausar" data-video-play>
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M8 5v14l11-7L8 5Z" fill="currentColor"/>
+      </svg>
+    </button>
+    <input type="range" min="0" max="1000" value="0" aria-label="Recorrer el video" data-video-range />
+    <time>{duration}</time>
+  </div>
+</figure>
+
+<script is:inline>
+  (() => {
+    document.querySelectorAll("[data-video-scrub]").forEach((box) => {
+      const video = box.querySelector("video");
+      const range = box.querySelector("[data-video-range]");
+      const play = box.querySelector("[data-video-play]");
+      if (!video || !range || !play) return;
+
+      const syncRange = () => {
+        const progress = video.duration ? video.currentTime / video.duration : 0;
+        range.value = String(Math.round(progress * 1000));
+      };
+
+      play.addEventListener("click", () => {
+        if (video.paused) video.play();
+        else video.pause();
+      });
+
+      range.addEventListener("input", () => {
+        video.pause();
+        const progress = Number(range.value) / 1000;
+        if (video.duration) video.currentTime = progress * video.duration;
+      });
+
+      video.addEventListener("timeupdate", syncRange);
+      video.addEventListener("loadedmetadata", syncRange);
+    });
+  })();
+</script>

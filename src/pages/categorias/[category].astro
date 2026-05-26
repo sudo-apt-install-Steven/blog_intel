@@ -1,0 +1,40 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ArticleCard from "../../components/ArticleCard.astro";
+import TopicSidebar from "../../components/TopicSidebar.astro";
+import { categories, getCategory } from "../../data/categories";
+
+export async function getStaticPaths() {
+  return categories.map((category) => ({
+    params: { category: category.slug }
+  }));
+}
+
+const { category } = Astro.params;
+const current = getCategory(category ?? "");
+const posts = (await getCollection("blog"))
+  .filter((post) => post.data.category === category)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<BaseLayout title={current?.label ?? "Categoría"} description={current?.summary ?? "Categoría del blog."}>
+  <section class="page-hero">
+    <div class="container">
+      <div class="section-heading">
+        <span class="eyeless-label">Categoría</span>
+        <h1>{current?.label}</h1>
+        <p>{current?.summary}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container layout-with-sidebar">
+      <div class="grid-3">
+        {posts.map((post) => <ArticleCard post={post} headingLevel="h2" />)}
+      </div>
+      <TopicSidebar />
+    </div>
+  </section>
+</BaseLayout>

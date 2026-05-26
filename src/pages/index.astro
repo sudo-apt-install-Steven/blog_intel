@@ -1,0 +1,82 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ScrollScrubHero from "../components/ScrollScrubHero.astro";
+import ArticleCard from "../components/ArticleCard.astro";
+import { categories } from "../data/categories";
+
+const posts = (await getCollection("blog")).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const featured = posts.filter((post) => post.data.featured).slice(0, 3);
+const latest = posts.slice(0, 3);
+---
+
+<BaseLayout
+  title="Bitácora Intel | Blog educativo de tecnología"
+  description="Blog completo en español sobre procesadores Intel, gráficos Intel Arc, IA, centros de datos y ecosistema PC."
+>
+  <ScrollScrubHero />
+
+  <section class="section">
+    <div class="container">
+      <div class="section-heading">
+        <span class="eyeless-label">Lectura destacada</span>
+        <h2>Historias técnicas con mirada editorial.</h2>
+        <p>
+          Cada entrada combina contexto, fuentes oficiales y una explicación clara para entender cómo el hardware se conecta con usos reales.
+        </p>
+      </div>
+      <div class="grid-3">
+        {featured.map((post) => <ArticleCard post={post} headingLevel="h3" />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container feature-strip">
+      <img src="/media/posters/gpu-open.jpg" alt="Tarjeta Intel Arc B580 mostrando sus componentes internos" loading="lazy" />
+      <div class="feature-copy">
+        <span class="eyeless-label">Intel Arc B580</span>
+        <h2>Una GPU también cuenta una historia por dentro.</h2>
+        <p>
+          La entrada dedicada a Intel Arc usa el video de la GPU para recorrer la tarjeta con un control manual, ideal para observar ventiladores, PCB, disipador y flujo térmico sin perder el ritmo de lectura.
+        </p>
+        <div class="button-row">
+          <a class="button" href="/blog/arc-b580-grafica-1440p/">Leer análisis</a>
+          <a class="button secondary" href="/categorias/graficos-intel-arc/">Ver categoría</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-heading">
+        <span class="eyeless-label">Mapa del blog</span>
+        <h2>Cinco puertas de entrada.</h2>
+        <p>
+          La barra de temas organiza el blog como pide el género: navegación, contenido principal, entradas recientes y acceso a recursos auxiliares.
+        </p>
+      </div>
+      <div class="category-band">
+        {categories.map((category) => (
+          <a href={`/categorias/${category.slug}/`}>
+            <strong>{category.label}</strong>
+            <span>{category.summary}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-heading">
+        <span class="eyeless-label">Últimas entradas</span>
+        <h2>Para seguir explorando.</h2>
+      </div>
+      <div class="grid-3">
+        {latest.map((post) => <ArticleCard post={post} headingLevel="h3" />)}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

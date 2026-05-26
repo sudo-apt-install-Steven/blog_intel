@@ -1,0 +1,29 @@
+---
+import { getCategory } from "../data/categories";
+
+interface Props {
+  post: any;
+  headingLevel?: "h2" | "h3";
+}
+
+const { post, headingLevel = "h2" } = Astro.props;
+const category = getCategory(post.data.category);
+const Heading = headingLevel;
+---
+
+<article class="article-card">
+  <a class="article-card-media" href={`/blog/${post.id}/`} aria-label={`Leer ${post.data.title}`}>
+    <img src={post.data.hero} alt={post.data.heroAlt} loading="lazy" />
+  </a>
+  <div class="article-card-body">
+    <div class="meta-row">
+      <a href={`/categorias/${post.data.category}/`}>{category?.label ?? post.data.category}</a>
+      <span>{post.data.readingTime}</span>
+      <time datetime={post.data.date.toISOString()}>{post.data.date.toLocaleDateString("es", { day: "2-digit", month: "short", year: "numeric", timeZone: "UTC" })}</time>
+    </div>
+    <Heading>
+      <a href={`/blog/${post.id}/`}>{post.data.title}</a>
+    </Heading>
+    <p>{post.data.description}</p>
+  </div>
+</article>

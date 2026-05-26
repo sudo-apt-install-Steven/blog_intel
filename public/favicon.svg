@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Bitácora Intel">
+  <rect width="64" height="64" rx="12" fill="#07111f"/>
+  <rect x="15" y="15" width="34" height="34" rx="4" fill="none" stroke="#18d7ff" stroke-width="3"/>
+  <path d="M24 24h16v16H24z" fill="#f5f8fb"/>
+  <path d="M8 22h7M8 32h7M8 42h7M49 22h7M49 32h7M49 42h7M22 8v7M32 8v7M42 8v7M22 49v7M32 49v7M42 49v7" stroke="#7af3b4" stroke-width="3" stroke-linecap="round"/>
+</svg>

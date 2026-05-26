@@ -1,0 +1,86 @@
+---
+interface Props {
+  slug: string;
+}
+
+const { slug } = Astro.props;
+---
+
+<section class="comments-box" data-comments-box data-slug={slug}>
+  <div>
+    <h2>Caja de comentarios</h2>
+    <p>
+      Demo local para cumplir la estructura de blog: tus comentarios se guardan solo en este navegador.
+    </p>
+  </div>
+  <form class="comment-form" data-comment-form>
+    <label>
+      Nombre
+      <input name="name" autocomplete="name" maxlength="48" required />
+    </label>
+    <label>
+      Opinión
+      <textarea name="message" maxlength="420" required></textarea>
+    </label>
+    <button class="button" type="submit">Publicar comentario</button>
+  </form>
+  <div class="comment-list" data-comment-list aria-live="polite"></div>
+</section>
+
+<script is:inline>
+  (() => {
+    document.querySelectorAll("[data-comments-box]").forEach((box) => {
+      const slug = box.getAttribute("data-slug");
+      const form = box.querySelector("[data-comment-form]");
+      const list = box.querySelector("[data-comment-list]");
+      const key = `bitacora-intel-comments:${slug}`;
+      if (!form || !list || !slug) return;
+
+      const read = () => {
+        try {
+          return JSON.parse(localStorage.getItem(key) || "[]");
+        } catch {
+          return [];
+        }
+      };
+
+      const write = (items) => localStorage.setItem(key, JSON.stringify(items));
+
+      const render = () => {
+        const items = read();
+        list.innerHTML = "";
+        if (items.length === 0) {
+          const empty = document.createElement("p");
+          empty.textContent = "Todavía no hay comentarios. Sé la primera persona en opinar.";
+          list.append(empty);
+          return;
+        }
+        items.forEach((item) => {
+          const article = document.createElement("article");
+          article.className = "comment-item";
+          const name = document.createElement("strong");
+          name.textContent = item.name;
+          const message = document.createElement("p");
+          message.textContent = item.message;
+          article.append(name, message);
+          list.append(article);
+        });
+      };
+
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const data = new FormData(form);
+        const next = {
+          name: String(data.get("name") || "").trim(),
+          message: String(data.get("message") || "").trim()
+        };
+        if (!next.name || !next.message) return;
+        write([next, ...read()].slice(0, 8));
+        form.reset();
+        render();
+      });
+
+      render();
+    });
+  })();
+</script>

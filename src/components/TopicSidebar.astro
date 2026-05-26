@@ -1,0 +1,49 @@
+---
+import { categories } from "../data/categories";
+
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface Props {
+  headings?: Heading[];
+}
+
+const { headings = [] } = Astro.props;
+const visibleHeadings = headings.filter((heading) => heading.depth === 2 || heading.depth === 3).slice(0, 9);
+---
+
+<aside class="topic-sidebar" aria-label="Temas auxiliares">
+  {visibleHeadings.length > 0 && (
+    <section class="side-panel">
+      <h2>En esta entrada</h2>
+      <ul>
+        {visibleHeadings.map((heading) => (
+          <li>
+            <a href={`#${heading.slug}`}>{heading.text}</a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  <section class="side-panel">
+    <h2>Tópicos del blog</h2>
+    <ul>
+      {categories.map((category) => (
+        <li>
+          <a href={`/categorias/${category.slug}/`}>{category.label}</a>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="side-panel">
+    <h2>Nota editorial</h2>
+    <p>
+      Blog educativo en español. Las marcas se citan de forma nominativa y los datos técnicos se enlazan a fuentes oficiales.
+    </p>
+  </section>
+</aside>
